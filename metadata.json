@@ -1,0 +1,6 @@
+{
+  "name": "Reducte",
+  "description": "Application web de gestion des services informatiques pour l'entreprise Reducte",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

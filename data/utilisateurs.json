@@ -1,0 +1,92 @@
+[
+  {
+    "id": "usr-admin-01",
+    "nom": "Youssef El Amrani (Admin)",
+    "email": "admin@reducte.ma",
+    "motDePasse": "$2b$10$lqD8XOvnLaoxMRkhePeVpeOUemmEm2D1xyu5Nj7NNGXOMiU6MfDXO",
+    "role": "admin",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:00:00.000Z"
+  },
+  {
+    "id": "usr-tech-01",
+    "nom": "Yassine Bennani (Technicien)",
+    "email": "tech@reducte.ma",
+    "motDePasse": "$2b$10$hTOaHPGwClqew7hWLBs8NerkknlF14sKgYmTlfNb21c2vznygy502",
+    "role": "technicien",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:05:00.000Z"
+  },
+  {
+    "id": "usr-client-01",
+    "nom": "Amine Mansouri",
+    "email": "client@acme.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:10:00.000Z"
+  },
+  {
+    "id": "usr-client-02",
+    "nom": "Sara Alami",
+    "email": "sara.alami@maroclogistics.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:15:00.000Z"
+  },
+  {
+    "id": "usr-client-03",
+    "nom": "Karim Berrada",
+    "email": "karim.berrada@medinasoft.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:20:00.000Z"
+  },
+  {
+    "id": "usr-client-04",
+    "nom": "Meryem Tazi",
+    "email": "meryem.tazi@atlasdev.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:25:00.000Z"
+  },
+  {
+    "id": "usr-client-05",
+    "nom": "Omar Chraibi",
+    "email": "omar.chraibi@fintech.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:30:00.000Z"
+  },
+  {
+    "id": "usr-client-06",
+    "nom": "Fatima Benjelloun",
+    "email": "fatima.b@agritech.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:35:00.000Z"
+  },
+  {
+    "id": "usr-client-07",
+    "nom": "Hicham Kabbaj",
+    "email": "hicham.kabbaj@solaire.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:40:00.000Z"
+  },
+  {
+    "id": "usr-client-08",
+    "nom": "Houda Filali",
+    "email": "houda.filali@designstudio.ma",
+    "motDePasse": "$2b$10$0rlEJ5.9Ho7YKAw3fawp..zTVu5W7FWLOggKoVKl.9.RCiQnsI.QS",
+    "role": "client",
+    "statut": "Actif",
+    "dateCreation": "2026-08-01T10:45:00.000Z"
+  }
+]

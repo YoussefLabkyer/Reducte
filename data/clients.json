@@ -1,0 +1,110 @@
+[
+  {
+    "id": "cli-01",
+    "userId": "usr-client-01",
+    "nom": "Mansouri",
+    "prenom": "Amine",
+    "societe": "Atlas Tech Solutions",
+    "adresse": "15 Boulevard Zerktouni, Maarif, Casablanca",
+    "telephone": "0522304050",
+    "email": "client@acme.ma",
+    "dateCreation": "2026-08-01T10:10:00.000Z"
+  },
+  {
+    "id": "cli-02",
+    "userId": "usr-client-02",
+    "nom": "Alami",
+    "prenom": "Sara",
+    "societe": "Maroc Logistics",
+    "adresse": "45 Avenue Fal Ould Oumeir, Agdal, Rabat",
+    "telephone": "0537708090",
+    "email": "sara.alami@maroclogistics.ma",
+    "dateCreation": "2026-08-01T10:15:00.000Z"
+  },
+  {
+    "id": "cli-03",
+    "userId": "usr-client-03",
+    "nom": "Berrada",
+    "prenom": "Karim",
+    "societe": "Medina Soft Tanger",
+    "adresse": "8 Rue de la Kasbah, Tanger",
+    "telephone": "0539901020",
+    "email": "karim.berrada@medinasoft.ma",
+    "dateCreation": "2026-08-01T10:20:00.000Z"
+  },
+  {
+    "id": "cli-04",
+    "userId": "usr-client-04",
+    "nom": "Tazi",
+    "prenom": "Meryem",
+    "societe": "Atlas Dev Consulting",
+    "adresse": "12 Avenue Mohammed VI, Hivernage, Marrakech",
+    "telephone": "0524403020",
+    "email": "meryem.tazi@atlasdev.ma",
+    "dateCreation": "2026-08-01T10:25:00.000Z"
+  },
+  {
+    "id": "cli-05",
+    "userId": "usr-client-05",
+    "nom": "Chraibi",
+    "prenom": "Omar",
+    "societe": "Fintech Maroc",
+    "adresse": "100 Boulevard d Anfa, Casablanca",
+    "telephone": "0522908070",
+    "email": "omar.chraibi@fintech.ma",
+    "dateCreation": "2026-08-01T10:30:00.000Z"
+  },
+  {
+    "id": "cli-06",
+    "userId": "usr-client-06",
+    "nom": "Benjelloun",
+    "prenom": "Fatima",
+    "societe": "AgriTech Souss",
+    "adresse": "Zone Industrielle Tassila, Agadir",
+    "telephone": "0528806050",
+    "email": "fatima.b@agritech.ma",
+    "dateCreation": "2026-08-01T10:35:00.000Z"
+  },
+  {
+    "id": "cli-07",
+    "userId": "usr-client-07",
+    "nom": "Kabbaj",
+    "prenom": "Hicham",
+    "societe": "Solaire & Co",
+    "adresse": "25 Boulevard Hassan II, Oujda",
+    "telephone": "0536605040",
+    "email": "hicham.kabbaj@solaire.ma",
+    "dateCreation": "2026-08-01T10:40:00.000Z"
+  },
+  {
+    "id": "cli-08",
+    "userId": "usr-client-08",
+    "nom": "Filali",
+    "prenom": "Houda",
+    "societe": "Creative Design Studio",
+    "adresse": "14 Rue Allal Ben Abdellah, Fès",
+    "telephone": "0535504030",
+    "email": "houda.filali@designstudio.ma",
+    "dateCreation": "2026-08-01T10:45:00.000Z"
+  },
+  {
+    "id": "cli-09",
+    "nom": "Idrissi",
+    "prenom": "Mehdi",
+    "societe": "Maghreb Telecom Solutions",
+    "adresse": "50 Avenue FAR, Meknès",
+    "telephone": "0535403020",
+    "email": "mehdi.idrissi@maghrebtelecom.ma",
+    "dateCreation": "2026-08-01T10:50:00.000Z"
+  },
+  {
+    "id": "cli-10",
+    "nom": "Chaoui",
+    "prenom": "Sofia",
+    "societe": "Sahara Trading Co",
+    "adresse": "Zone Franche, Laâyoune",
+    "telephone": "0528901000",
+    "email": "sofia.chaoui@saharatrading.ma",
+    "dateCreation": "2026-08-01T10:55:00.000Z"
+  }
+]

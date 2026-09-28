@@ -1,0 +1,102 @@
+[
+  {
+    "id": "eq-01",
+    "clientId": "cli-01",
+    "nom": "Serveur de fichiers principal",
+    "categorie": "Serveur",
+    "marque": "Dell",
+    "modele": "PowerEdge R740",
+    "numeroSerie": "SN-DELL-982341",
+    "dateInstallation": "2024-01-15"
+  },
+  {
+    "id": "eq-02",
+    "clientId": "cli-02",
+    "nom": "Switch Réseau Cœur 48P",
+    "categorie": "Réseau",
+    "marque": "Cisco",
+    "modele": "Catalyst 9300",
+    "numeroSerie": "SN-CISCO-551029",
+    "dateInstallation": "2024-05-20"
+  },
+  {
+    "id": "eq-03",
+    "clientId": "cli-03",
+    "nom": "Station de Travail Design",
+    "categorie": "Ordinateur",
+    "marque": "HP",
+    "modele": "ZBook Studio G10",
+    "numeroSerie": "SN-HP-334112",
+    "dateInstallation": "2024-09-10"
+  },
+  {
+    "id": "eq-04",
+    "clientId": "cli-04",
+    "nom": "Firewall de Sécurité VPN",
+    "categorie": "Sécurité",
+    "marque": "Fortinet",
+    "modele": "FortiGate 100F",
+    "numeroSerie": "SN-FORTI-881920",
+    "dateInstallation": "2024-03-01"
+  },
+  {
+    "id": "eq-05",
+    "clientId": "cli-05",
+    "nom": "Imprimante Multifonction A3",
+    "categorie": "Imprimante",
+    "marque": "Kyocera",
+    "modele": "TASKalfa 4054ci",
+    "numeroSerie": "SN-KYO-771234",
+    "dateInstallation": "2024-06-12"
+  },
+  {
+    "id": "eq-06",
+    "clientId": "cli-06",
+    "nom": "Serveur NAS de Sauvegarde",
+    "categorie": "Stockage",
+    "marque": "Synology",
+    "modele": "RackStation RS3621xs+",
+    "numeroSerie": "SN-SYNO-449102",
+    "dateInstallation": "2024-02-28"
+  },
+  {
+    "id": "eq-07",
+    "clientId": "cli-07",
+    "nom": "Bornes Wi-Fi Entreprise (Lot of 4)",
+    "categorie": "Réseau",
+    "marque": "Aruba",
+    "modele": "AP-515 Wi-Fi 6",
+    "numeroSerie": "SN-ARUBA-229981",
+    "dateInstallation": "2024-07-05"
+  },
+  {
+    "id": "eq-08",
+    "clientId": "cli-08",
+    "nom": "Poste Micro-Tour Direction",
+    "categorie": "Ordinateur",
+    "marque": "Lenovo",
+    "modele": "ThinkCentre M90q",
+    "numeroSerie": "SN-LENOVO-118273",
+    "dateInstallation": "2024-10-18"
+  },
+  {
+    "id": "eq-09",
+    "clientId": "cli-09",
+    "nom": "Onduleur Cœur de Réseau",
+    "categorie": "Alimentation",
+    "marque": "APC",
+    "modele": "Smart-UPS RT 5000VA",
+    "numeroSerie": "SN-APC-663829",
+    "dateInstallation": "2024-04-14"
+  },
+  {
+    "id": "eq-10",
+    "clientId": "cli-10",
+    "nom": "Serveur de Base de Données ERP",
+    "categorie": "Serveur",
+    "marque": "HPE",
+    "modele": "ProLiant DL380 Gen10",
+    "numeroSerie": "SN-HPE-992011",
+    "dateInstallation": "2024-11-02"
+  }
+]

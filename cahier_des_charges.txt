@@ -1,0 +1,663 @@
+================================================================================
+                    CAHIER DES CHARGES FONCTIONNEL & TECHNIQUE
+                APPLICATION DE GESTION ITSM & PARC INFORMATIQUE
+                               (REDUCTE ITSM)
+================================================================================
+
+Document de cadrage d'analyse conçu pour la conception des diagrammes UML :
+- Diagramme des Cas d'Utilisation (Use Case Diagram)
+- Diagramme des Classes d'Analyse (Analysis Class Diagram)
+- Diagrammes de Séquence d'Analyse (Analysis Sequence Diagrams)
+- Diagrammes d'Activité (Activity Diagrams)
+
+================================================================================
+1. PRÉSENTATION GÉNÉRALE ET OBJECTIFS DU SYSTÈME
+================================================================================
+
+1.1 Contexte et Définition
+Reducte ITSM est une solution logicielle d'assistance informatique et de 
+gestion de parc matériel conçue pour structurer et automatiser la relation 
+opérationnelle entre :
+- Les clients (entreprises clientes répertoriées),
+- Les techniciens de maintenance informatique (intervenants techniques),
+- Les administrateurs système (superviseurs et répartiteurs).
+
+1.2 Objectifs Métier
+- Recenser les entreprises clientes et les coordonnées de leurs contacts.
+- Maintenir l'inventaire complet des équipements informatiques (postes, 
+  serveurs, switches, imprimantes, etc.) avec leurs numéros de série uniques.
+- Permettre la soumission en ligne de tickets d'incidents / demandes d'intervention
+  par les clients ou les administrateurs.
+- Automatiser la création des dossiers d'intervention de service (ServiceItem)
+  dès l'émission d'une demande.
+- Assurer la traçabilité des assignations techniques et du cycle de vie des
+  tickets (Nouvelle -> Affectée -> En cours -> Terminée ou Annulée).
+- Offrir des tableaux de bord statistiques dynamiques et un moteur de recherche
+  globale transversal en temps réel.
+
+
+================================================================================
+2. IDENTIFICATION DES ACTEURS DU SYSTÈME
+================================================================================
+
+2.1 Acteurs Humains
+- Administrateur (role: 'admin') :
+  Dispose d'une visibilité et de privilèges complets sur l'ensemble du système.
+  Gère et valide les comptes utilisateurs, administre le référentiel clients,
+  l'inventaire global du parc, affecte nominativement les techniciens aux 
+  interventions et supervise l'ensemble des tickets et statistiques.
+
+- Technicien (role: 'technicien') :
+  Opérateur interne chargé de la résolution des incidents.
+  Consulte les équipements et clients du parc, visualise les interventions qui 
+  lui sont assignées, met à jour le statut des interventions ('En cours', 
+  'Terminée'), saisit les rapports et notes techniques, et suit ses KPI personnels.
+
+- Client (role: 'client') :
+  Représentant d'une entreprise cliente.
+  Accède à "Mon Espace Client" : consulte et enregistre les équipements 
+  appartenant à son entreprise, émet des demandes d'intervention ciblées sur 
+  son matériel, suit l'avancement de ses tickets en temps réel et peut annuler 
+  ses propres demandes si elles ne sont pas encore traitées.
+
+- Visiteur non authentifié :
+  Tout internaute accédant à l'URL sans session active.
+  Peut s'authentifier (/connexion) ou déposer une demande d'inscription d'entreprise
+  (/inscription) soumise à validation administrative.
+
+2.2 Acteur Système
+- Système Reducte :
+  Moteur applicatif automatisé. Il gère l'authentification et l'émission des tokens
+  JWT, le hachage sécurisé bcrypt des mots de passe, la synchronisation bidirectionnelle
+  automatique et stricte entre l'entité Demande et l'entité ServiceItem, ainsi que
+  le filtrage contextuel des données selon le rôle de l'utilisateur demandeur.
+
+
+================================================================================
+3. MATRICE DES DROITS ET HABILITATIONS (RBAC)
+================================================================================
+
+Fonctionnalité                          | Admin | Technicien | Client | Visiteur
+----------------------------------------+-------+------------+--------+---------
+Connexion / Déconnexion                 |  OUI  |    OUI     |  OUI   |   NON
+Inscription nouveau client              |  NON  |    NON     |  NON   |   OUI
+Changement de son propre mot de passe   |  OUI  |    OUI     |  OUI   |   NON
+Valider / Rejeter inscription client    |  OUI  |    NON     |  NON   |   NON
+Activer / Désactiver compte utilisateur |  OUI  |    NON     |  NON   |   NON
+Créer agent (Admin ou Technicien)       |  OUI  |    NON     |  NON   |   NON
+Consulter annuaire des utilisateurs     |  OUI  |    NON     |  NON   |   NON
+Créer / Modifier une fiche Client       |  OUI  |    NON     |  (1)   |   NON
+Supprimer une fiche Client              |  OUI  |    NON     |  NON   |   NON
+Consulter la liste des Clients          |  OUI  |    OUI     |  (2)   |   NON
+Ajouter un Équipement                   |  OUI  |    NON     |  (3)   |   NON
+Modifier un Équipement                  |  OUI  |    OUI     |  NON   |   NON
+Supprimer un Équipement                 |  OUI  |    NON     |  NON   |   NON
+Consulter l'Inventaire des Équipements  |  OUI  |    OUI     |  (3)   |   NON
+Créer une Demande d'intervention        |  OUI  |    NON     |  (3)   |   NON
+Modifier le statut d'une Demande        |  OUI  |    (4)     |  (5)   |   NON
+Supprimer une Demande & son Service     |  OUI  |    NON     |  NON   |   NON
+Affecter un Technicien à un Service     |  OUI  |    NON     |  NON   |   NON
+Mettre à jour intervention et notes     |  OUI  |    (6)     |  NON   |   NON
+Recherche globale (Ctrl + K)            |  OUI  |    (7)     |  (7)   |   NON
+Visualiser Tableau de bord analytique   |  OUI  |    (8)     |  (9)   |   NON
+
+Légende des restrictions contextuelles :
+(1) Le client peut uniquement modifier les coordonnées de sa propre structure.
+(2) Le client accède uniquement aux données de sa propre entreprise.
+(3) Restreint strictement aux équipements rattachés au compte client connecté.
+(4) Le technicien peut faire progresser les demandes vers 'En cours' ou 'Terminée'.
+(5) Le client peut uniquement passer ses propres demandes au statut 'Annulée'.
+(6) Restreint aux interventions pour lesquelles le technicien est nommément affecté.
+(7) Filtrage backend automatique : le client ne cherche que dans ses données,
+    le technicien accède à ses interventions et à l'inventaire.
+(8) Statistiques globales pour l'Admin, statistiques individuelles pour le Technicien.
+(9) Vue spécifique "Mon Espace Client" avec ses indicateurs personnalisés.
+
+
+================================================================================
+4. SPÉCIFICATION DÉTAILLÉE DES CAS D'UTILISATION
+================================================================================
+
+--------------------------------------------------------------------------------
+MODULE 1 : AUTHENTIFICATION ET GESTION DU PROFIL
+--------------------------------------------------------------------------------
+
+CU1.1 : S'authentifier
+- Acteurs : Administrateur, Technicien, Client
+- Préconditions : L'utilisateur possède un compte créé.
+- Scénario Nominal :
+  1. L'utilisateur se rend sur la page de connexion (/connexion).
+  2. Il saisit son email et son mot de passe, puis valide.
+  3. Le système vérifie l'existence du compte et contrôle le hash bcrypt.
+  4. Le système vérifie que le statut du compte est 'Actif'.
+  5. Le système génère un token JWT signé contenant l'ID, le rôle et le statut.
+  6. Le système renvoie le token, les données de profil et la fiche client associée.
+  7. L'application enregistre la session et redirige vers le tableau de bord (/app).
+- Exceptions :
+  4a. Si le statut est 'En attente' : Affichage du message "Votre compte est en 
+      attente de validation par un administrateur".
+  4b. Si le statut est 'Désactivé' : Affichage du message "Votre compte a été 
+      désactivé. Contactez l'administrateur".
+  3a. Si les identifiants sont invalides : Message d'erreur d'authentification.
+
+CU1.2 : S'inscrire (Enregistrement en ligne d'un client)
+- Acteur : Visiteur non authentifié
+- Scénario Nominal :
+  1. Le visiteur accède à la page d'inscription (/inscription).
+  2. Il renseigne les informations de son compte (nom complet, email, mot de passe)
+     et les informations de sa structure (société, téléphone, adresse).
+  3. Le système valide le format et vérifie l'unicité de l'adresse email.
+  4. Le système crée un enregistrement Utilisateur (role='client', statut='En attente').
+  5. Le système crée l'enregistrement Client associé, relié par userId.
+  6. Un message informe le demandeur que sa demande est transmise à l'administrateur.
+
+CU1.3 : Changer son mot de passe
+- Acteurs : Tout utilisateur connecté
+- Scénario : L'utilisateur fournit son mot de passe actuel et son nouveau mot de passe.
+  Le système vérifie la concordance, hash le nouveau mot de passe et met à jour le compte.
+
+CU1.4 : Se déconnecter
+- Acteurs : Tout utilisateur connecté
+- Scénario : Purge du token JWT et de l'état applicatif en mémoire, redirection vers /connexion.
+
+--------------------------------------------------------------------------------
+MODULE 2 : GESTION DES UTILISATEURS & VALIDATION DES INSCRIPTIONS
+--------------------------------------------------------------------------------
+
+CU2.1 : Valider une inscription en attente
+- Acteur : Administrateur
+- Scénario : L'administrateur consulte l'onglet "Inscriptions en attente", examine
+  l'identité et la société du demandeur, puis clique sur "Valider".
+  Le système bascule le statut de l'utilisateur à 'Actif'. L'utilisateur peut
+  dès lors se connecter immédiatement.
+
+CU2.2 : Rejeter une inscription en attente
+- Acteur : Administrateur
+- Scénario : L'administrateur clique sur "Rejeter". Le système supprime définitivement
+  le compte utilisateur ainsi que la fiche client orpheline créée lors de la demande.
+
+CU2.3 : Créer un agent interne (Technicien ou Administrateur)
+- Acteur : Administrateur
+- Scénario : L'administrateur clique sur "Nouvel utilisateur", saisit le nom, l'email,
+  le mot de passe initial et sélectionne le rôle ('technicien' ou 'admin').
+  Le système crée l'utilisateur directement avec le statut 'Actif'.
+
+CU2.4 : Activer / Désactiver un compte utilisateur
+- Acteur : Administrateur
+- Scénario : L'administrateur clique sur le bouton de bascule d'état. Un compte actif
+  devient 'Désactivé' (interdisant toute connexion future) et inversement.
+
+CU2.5 : Supprimer un utilisateur
+- Acteur : Administrateur
+- Règle métier : Un administrateur ne peut pas supprimer son propre compte.
+
+--------------------------------------------------------------------------------
+MODULE 3 : GESTION DU RÉPERTOIRE DES CLIENTS
+--------------------------------------------------------------------------------
+
+CU3.1 : Consulter et rechercher des clients
+- Acteurs : Administrateur, Technicien
+- Description : Affichage paginé (6 clients par page) avec champ de recherche
+  filtrant sur : raison sociale, nom, prénom, email, téléphone.
+  Chaque carte/ligne affiche également le nombre d'équipements rattachés au client.
+
+CU3.2 : Créer une fiche client
+- Acteur : Administrateur
+- Données : Nom, Prénom, Société, Téléphone, Email, Adresse postale complète.
+
+CU3.3 : Consulter les équipements d'un client
+- Acteurs : Administrateur, Technicien
+- Description : Clic sur l'action "Voir équipements" ouvrant une modale listant
+  tous les matériels du client, avec lien direct vers la vue filtrée de l'inventaire.
+
+CU3.4 : Modifier / Supprimer une fiche client
+- Acteur : Administrateur (modification permise au client pour sa propre fiche).
+
+--------------------------------------------------------------------------------
+MODULE 4 : GESTION DU PARC D'ÉQUIPEMENTS
+--------------------------------------------------------------------------------
+
+CU4.1 : Enregistrer un équipement informatique
+- Acteurs : Client (pour sa propre entreprise), Administrateur (avec sélection du client)
+- Données obligatoires :
+  - Nom de l'équipement (ex: "Poste CAO Direction", "Serveur Fichiers NAS")
+  - Catégorie (PC Portable, PC Fixe, Serveur, Réseau, Imprimante, Autre)
+  - Marque (ex: "Dell", "HP", "Cisco")
+  - Modèle (ex: "Latitude 5540", "PowerEdge R740")
+  - Numéro de série unique (S/N)
+  - Date d'installation
+
+CU4.2 : Consulter et filtrer l'inventaire
+- Acteurs : Administrateur, Technicien, Client (restreint à ses équipements)
+- Filtres : Recherche par mot-clé (nom, marque, modèle, numéro de série),
+  filtre déroulant par Client propriétaire (Admin/Tech), pagination (6 matériels/page).
+
+CU4.3 : Modifier les spécifications d'un équipement
+- Acteurs : Administrateur, Technicien
+
+CU4.4 : Retirer un équipement du parc (Suppression)
+- Acteur : Administrateur
+
+--------------------------------------------------------------------------------
+MODULE 5 : GESTION DES DEMANDES D'INTERVENTION (TICKETING)
+--------------------------------------------------------------------------------
+
+CU5.1 : Déclarer une nouvelle demande d'assistance
+- Acteurs : Client, Administrateur
+- Données saisies :
+  - Sélection du client (automatique pour le client connecté)
+  - Sélection de l'équipement concerné (parmi les machines du client)
+  - Objet (titre synthétique de la panne ou du besoin)
+  - Niveau de priorité : Faible, Moyenne, Élevée
+  - Description détaillée du problème
+- Règle système d'intégrité fondamentale :
+  1. Le système instancie et sauvegarde la Demande avec le statut 'Nouvelle'
+     et la date de création horodatée.
+  2. SIMULTANÉMENT et AUTOMATIQUEMENT, le système crée l'entité ServiceItem 
+     associée avec le statut 'Nouvelle' et sans technicien affecté (technicienId=null).
+
+CU5.2 : Consulter et filtrer les demandes
+- Acteurs : Administrateur (toutes), Technicien (ses affectations), Client (ses demandes)
+- Filtres : Recherche textuelle, filtre sélecteur de statut (TOUS, Nouvelle, 
+  Affectée, En cours, Terminée, Annulée), pagination (6 demandes par page).
+
+CU5.3 : Affecter un technicien à la demande
+- Acteur : Administrateur
+- Scénario : L'administrateur sélectionne un technicien dans la liste déroulante
+  des techniciens actifs. Le système met à jour le ServiceItem correspondant
+  (technicienId) et bascule automatiquement les statuts de la Demande et du 
+  Service à 'Affectée' (si le statut était 'Nouvelle').
+
+CU5.4 : Mettre à jour le statut d'une demande
+- Acteurs : Administrateur (tout statut), Technicien ('En cours', 'Terminée'),
+  Client ('Annulée' sur ses demandes).
+- Synchronisation : Tout changement de statut sur la demande est immédiatement
+  propagé au service d'intervention rattaché.
+
+CU5.5 : Supprimer une demande
+- Acteur : Administrateur
+- Conséquence : La suppression de la demande entraîne la suppression du service lié.
+
+--------------------------------------------------------------------------------
+MODULE 6 : GESTION DES SERVICES & INTERVENTIONS TECHNIQUES
+--------------------------------------------------------------------------------
+
+CU6.1 : Consulter les interventions de service
+- Acteurs : Technicien (ses interventions), Administrateur (toutes)
+- Description : Vue centralisée affichant les détails croisés : code intervention,
+  code demande, équipement ciblé, informations du client et technicien assigné.
+
+CU6.2 : Mettre à jour l'intervention et consigner les notes techniques
+- Acteurs : Technicien affecté, Administrateur
+- Scénario : Le technicien passe l'intervention en 'En cours' lorsqu'il prend en 
+  charge le matériel, puis en 'Terminée' après diagnostic et réparation.
+  Il rédige ses conclusions dans le champ "Notes d'intervention".
+  Le système met à jour l'horodatage de modification (dateMiseAJour) et 
+  synchronise le statut de la Demande correspondante.
+
+CU6.3 : Supprimer un service d'intervention
+- Acteur : Administrateur
+
+--------------------------------------------------------------------------------
+MODULE 7 : TABLEAUX DE BORD & ANALYTIQUE
+--------------------------------------------------------------------------------
+
+CU7.1 : Visualiser le Tableau de bord Supervision (Admin & Technicien)
+- Indicateurs clés (KPI) :
+  - Nombre total de clients
+  - Nombre de techniciens actifs
+  - Total des demandes
+  - Interventions en cours
+  - Interventions terminées
+- Graphiques analytiques :
+  - Graphique en barres : répartition des demandes par statut
+  - Graphique en anneau : répartition des demandes par priorité (Faible, Moyenne, Élevée)
+- Flux des dernières demandes soumises avec badges de statut.
+
+CU7.2 : Visualiser le Tableau de bord "Mon Espace Client"
+- Bannière d'accueil personnalisée au nom de la société avec bouton d'action
+  rapide "Nouvelle demande".
+- Indicateurs synthétiques de l'entreprise :
+  - Demandes en attente
+  - Interventions en cours
+  - Demandes résolues
+  - Demandes annulées
+- Carte "Dernière demande de service" : affichage détaillé de l'avancement du 
+  dernier ticket soumis (statut, technicien assigné, équipement, notes).
+- Fiche de synthèse du profil de l'entreprise (contacts, adresse).
+- Raccourci vers la liste des équipements de l'entreprise avec bouton "Demander support".
+
+--------------------------------------------------------------------------------
+MODULE 8 : RECHERCHE GLOBALE TRANSVERSALE
+--------------------------------------------------------------------------------
+
+CU8.1 : Effectuer une recherche globale multi-entités
+- Déclencheur : Clic sur le bouton de recherche ou raccourci clavier "Ctrl + K".
+- Description : Recherche textuelle instantanée interrogeant simultanément 4 registres :
+  1. Clients (nom, prénom, société, email)
+  2. Équipements (nom, marque, modèle, numéro de série)
+  3. Demandes (ID, objet, description, priorité, statut)
+  4. Services (ID, statut, notes)
+- Sécurité RBAC : Les résultats sont automatiquement bridés selon le profil de l'utilisateur.
+
+
+================================================================================
+5. MODÈLE CONCEPTUEL ET CLASSES D'ANALYSE
+================================================================================
+
+5.1 Structure des Classes d'Entités
+
++-------------------------------------------------------------------------+
+|                              Utilisateur                                |
++-------------------------------------------------------------------------+
+| - id : String                                                           |
+| - nom : String                                                          |
+| - email : String                                                        |
+| - motDePasse : String (hashé bcrypt)                                    |
+| - role : RoleUtilisateur {'admin', 'technicien', 'client'}              |
+| - statut : StatutCompte {'Actif', 'En attente', 'Désactivé'}            |
+| - dateCreation : DateTime (format ISO 8601)                             |
++-------------------------------------------------------------------------+
+| + verifierMotDePasse(mdpClair : String) : Boolean                       |
+| + activerCompte() : Void                                                |
+| + desactiverCompte() : Void                                             |
++-------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------+
+|                                 Client                                  |
++-------------------------------------------------------------------------+
+| - id : String                                                           |
+| - nom : String                                                          |
+| - prenom : String                                                       |
+| - societe : String                                                      |
+| - adresse : String                                                      |
+| - telephone : String                                                    |
+| - email : String                                                        |
+| - dateCreation : DateTime (format ISO 8601)                             |
+| - userId : String [0..1]                                                |
++-------------------------------------------------------------------------+
+| + getNomComplet() : String                                              |
+| + getCoordonnees() : String                                             |
++-------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------+
+|                               Equipement                                |
++-------------------------------------------------------------------------+
+| - id : String                                                           |
+| - clientId : String                                                     |
+| - nom : String                                                          |
+| - categorie : String (PC Portable, PC Fixe, Serveur, Réseau, ...)       |
+| - marque : String                                                       |
+| - modele : String                                                       |
+| - numeroSerie : String                                                  |
+| - dateInstallation : Date (YYYY-MM-DD)                                  |
++-------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------+
+|                                Demande                                  |
++-------------------------------------------------------------------------+
+| - id : String (ex: DEM-1718900000000-abc12)                             |
+| - clientId : String                                                     |
+| - equipementId : String                                                 |
+| - objet : String                                                        |
+| - description : String                                                  |
+| - priorite : NiveauPriorite {'Faible', 'Moyenne', 'Élevée'}             |
+| - statut : StatutDemande {'Nouvelle', 'Affectée', 'En cours',           |
+|                           'Terminée', 'Annulée'}                        |
+| - dateCreation : DateTime (format ISO 8601)                             |
++-------------------------------------------------------------------------+
+| + changerStatut(nouveauStatut : StatutDemande) : Void                   |
++-------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------+
+|                              ServiceItem                                |
++-------------------------------------------------------------------------+
+| - id : String (ex: SRV-1718900000000-xyz34)                             |
+| - demandeId : String                                                    |
+| - technicienId : String [0..1]                                          |
+| - statut : StatutService {'Nouvelle', 'Affectée', 'En cours',           |
+|                           'Terminée', 'Annulée'}                        |
+| - dateMiseAJour : DateTime (format ISO 8601)                            |
+| - notes : String [0..1]                                                 |
++-------------------------------------------------------------------------+
+| + affecterTechnicien(techId : String) : Void                            |
+| + actualiserIntervention(statut : StatutService, notes : String) : Void |
++-------------------------------------------------------------------------+
+
+5.2 Associations et Multiplicités
+1. Utilisateur (client) [0..1] <---- Possède ----> [1] Client
+   (Lien 1 à 1 optionnel : les fiches clients créées manuellement par l'admin 
+   peuvent exister avant création d'un compte de connexion).
+2. Client [1] <---- Possède en parc ----> [0..*] Equipement
+3. Equipement [1] <---- Fait l'objet de ----> [0..*] Demande
+4. Client [1] <---- Émet ----> [0..*] Demande
+5. Demande [1] <---- Déclenche obligatoirement ----> [1] ServiceItem
+   (Relation de composition / cycle de vie indissociable).
+6. Utilisateur (technicien) [0..1] <---- Prend en charge ----> [0..*] ServiceItem
+
+
+================================================================================
+6. CYCLES DE VIE ET DIAGRAMMES D'ACTIVITÉ
+================================================================================
+
+6.1 Cycle de Vie de la Demande et du Service (États Synchrones)
+
+           [ Soumission Demande par Client ou Admin ]
+                              │
+                              ▼
+                     ( État : Nouvelle )
+                              │
+                              │ Événement : Affectation d'un Technicien par l'Admin
+                              ▼
+                    ( État : Affectée )
+                              │
+                              │ Événement : Prise en charge par le Technicien
+                              ▼
+                    ( État : En cours )
+                              │
+                              │ Événement : Résolution technique et saisie des notes
+                              ▼
+                    ( État : Terminée )  ──► [ Clôture normale ]
+
+   * Voie de dérivation :
+     Depuis 'Nouvelle', 'Affectée' ou 'En cours' :
+     Événement : Annulation par l'Admin ou le Client émetteur
+     ──► ( État : Annulée ) ──► [ Fin de traitement ]
+
+6.2 Cycle d'Activité : Inscription et Validation d'un Client
+
+   [ Visiteur ]               [ Système ]                 [ Administrateur ]
+        │                          │                               │
+        │── Saisit formulaire ────►│                               │
+        │   inscription            │                               │
+        │                          │── Crée compte (En attente)    │
+        │                          │   et fiche Client             │
+        │                          │                               │
+        │◄─ Affiche message ───────│                               │
+        │   de confirmation        │                               │
+        │                          │                               │
+        │                          │── Notifie inscription ───────►│
+        │                          │                               │
+        │                          │◄── Décision de l'Admin ───────│
+        │                          │                               │
+        │                   [ Décision ? ]                         │
+        │                    /          \                          │
+        │           Validation          Rejet                      │
+        │                 /                \                       │
+        │                ▼                  ▼                      │
+        │       Passe le statut        Supprime User               │
+        │       à 'Actif'              et Client                   │
+        │                │                  │                      │
+        │                ▼                  ▼                      │
+        │          Client peut         Dossier rejeté              │
+        │          se connecter                                    │
+
+
+================================================================================
+7. SCÉNARIOS POUR DIAGRAMMES DE SÉQUENCE D'ANALYSE
+================================================================================
+
+SCÉNARIO 1 : Émission d'une demande par un Client
+--------------------------------------------------------------------------------
+Composants impliqués :
+- Acteur : Client
+- Vue : ClientDashboard / DemandesPage
+- Contrôleur : DemandeController
+- Middleware : authMiddleware
+- Service : DemandeService
+- Persistance : DemandeModel, ServiceModel, JsonStore
+
+Séquence des interactions :
+1. Le Client sélectionne un équipement, remplit l'objet, la priorité et la description.
+2. La Vue émet : POST /api/demandes avec le payload et le token JWT.
+3. authMiddleware intercepte la requête, vérifie la signature du JWT et injecte req.user.
+4. DemandeController reçoit l'appel et contrôle la présence des champs requis.
+5. DemandeController sollicite DemandeService.create(data, user).
+6. DemandeService :
+   a. Vérifie que l'équipement spécifié appartient bien au clientId de l'utilisateur.
+   b. Instancie l'objet Demande (id auto-généré, statut='Nouvelle', dateCreation=Now).
+   c. Enregistre la demande via DemandeModel.create().
+   d. CRÉE AUTOMATIQUEMENT l'intervention associée :
+      instancie ServiceItem (demandeId, statut='Nouvelle', technicienId=null).
+   e. Enregistre le service via ServiceModel.create().
+7. DemandeController renvoie un statut HTTP 201 avec la demande créée.
+8. La Vue reçoit la confirmation, ferme la modale, actualise les listes et les KPI.
+
+SCÉNARIO 2 : Affectation d'un Technicien par l'Administrateur
+--------------------------------------------------------------------------------
+Composants impliqués :
+- Acteur : Administrateur
+- Vue : ServicesPage / DemandesPage
+- Contrôleur : ServiceController
+- Service : ServiceService
+- Persistance : ServiceModel, DemandeModel
+
+Séquence des interactions :
+1. L'Administrateur clique sur "Affecter" et choisit un technicien disponible.
+2. La Vue émet : PATCH /api/services/:id/assign avec { technicienId }.
+3. authMiddleware & requireRoles('admin') valident les droits d'administration.
+4. ServiceController délègue l'opération à ServiceService.assignTechnician(id, technicienId).
+5. ServiceService :
+   a. Recherche le service cible dans ServiceModel.
+   b. Vérifie l'existence de l'utilisateur et confirme que role='technicien'.
+   c. Affecte technicienId et, si statut='Nouvelle', bascule statut='Affectée'.
+   d. Sauvegarde la mise à jour dans ServiceModel.
+   e. Récupère la Demande liée (demandeId) et passe son statut à 'Affectée'.
+   f. Sauvegarde la mise à jour dans DemandeModel.
+6. ServiceController renvoie la réponse HTTP 200 avec l'intervention actualisée.
+7. La Vue affiche une notification de succès et met à jour les badges de statut.
+
+SCÉNARIO 3 : Prise en charge, Traitement et Clôture par le Technicien
+--------------------------------------------------------------------------------
+Composants impliqués :
+- Acteur : Technicien
+- Vue : ServicesPage (Modal Traitement)
+- Contrôleur : ServiceController
+- Service : ServiceService
+- Persistance : ServiceModel, DemandeModel
+
+Séquence des interactions :
+1. Le Technicien ouvre le dossier, sélectionne le statut ('En cours' puis 'Terminée')
+   et consigne son rapport dans le champ "Notes".
+2. La Vue émet : PATCH /api/services/:id/status avec { statut, notes }.
+3. authMiddleware valide le jeton JWT.
+4. ServiceController appelle ServiceService.updateStatus(id, { statut, notes }, user).
+5. ServiceService :
+   a. Contrôle que le technicien demandeur est bien assigné à cette intervention
+      (ou que l'utilisateur est admin).
+   b. Met à jour le statut, dateMiseAJour=Now et concatène/enregistre les notes.
+   c. Répercute immédiatement le nouveau statut sur la Demande correspondante.
+6. ServiceController renvoie HTTP 200.
+7. La Vue actualise l'affichage et incrémente le compteur "Interventions terminées".
+
+
+================================================================================
+8. ARCHITECTURE TECHNIQUE & MODÈLE PHYSIQUE DE DONNÉES
+================================================================================
+
+8.1 Architecture Système
+- Frontend : Single Page Application (SPA) en TypeScript avec React 18, 
+  Tailwind CSS et Lucide Icons.
+- Backend : API RESTful en Node.js / Express avec typage TypeScript.
+- Sécurité :
+  - Hachage unidirectionnel des mots de passe avec bcryptjs (salage dynamique).
+  - Authentification stateless par JSON Web Tokens (JWT) signés avec clé secrète,
+    validité 24 heures.
+  - Contrôle d'accès à deux barrières : Middleware RBAC côté serveur et affichage
+    conditionnel des vues côté client.
+
+8.2 Schémas des Fichiers de Données (/data/*.json)
+Le stockage persistant est assuré de façon atomique par la classe JsonStore
+à travers 5 fichiers JSON :
+
+1. /data/utilisateurs.json :
+   [
+     {
+       "id": "USR-...",
+       "nom": "string",
+       "email": "string",
+       "motDePasse": "$2a$10$...",
+       "role": "admin" | "technicien" | "client",
+       "statut": "Actif" | "En attente" | "Désactivé",
+       "dateCreation": "YYYY-MM-DDTHH:mm:ss.sssZ"
+     }
+   ]
+
+2. /data/clients.json :
+   [
+     {
+       "id": "CLI-...",
+       "nom": "string",
+       "prenom": "string",
+       "societe": "string",
+       "adresse": "string",
+       "telephone": "string",
+       "email": "string",
+       "dateCreation": "YYYY-MM-DDTHH:mm:ss.sssZ",
+       "userId": "USR-..." (optionnel)
+     }
+   ]
+
+3. /data/equipements.json :
+   [
+     {
+       "id": "EQP-...",
+       "clientId": "CLI-...",
+       "nom": "string",
+       "categorie": "PC Portable" | "PC Fixe" | "Serveur" | "Réseau" | "Imprimante" | "Autre",
+       "marque": "string",
+       "modele": "string",
+       "numeroSerie": "string",
+       "dateInstallation": "YYYY-MM-DD"
+     }
+   ]
+
+4. /data/demandes.json :
+   [
+     {
+       "id": "DEM-...",
+       "clientId": "CLI-...",
+       "equipementId": "EQP-...",
+       "objet": "string",
+       "description": "string",
+       "priorite": "Faible" | "Moyenne" | "Élevée",
+       "statut": "Nouvelle" | "Affectée" | "En cours" | "Terminée" | "Annulée",
+       "dateCreation": "YYYY-MM-DDTHH:mm:ss.sssZ"
+     }
+   ]
+
+5. /data/services.json :
+   [
+     {
+       "id": "SRV-...",
+       "demandeId": "DEM-...",
+       "technicienId": "USR-..." (null si non affecté),
+       "statut": "Nouvelle" | "Affectée" | "En cours" | "Terminée" | "Annulée",
+       "dateMiseAJour": "YYYY-MM-DDTHH:mm:ss.sssZ",
+       "notes": "string" (optionnel)
+     }
+   ]
+
+================================================================================
+FIN DU CAHIER DES CHARGES
+================================================================================

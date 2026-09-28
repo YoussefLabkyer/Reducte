@@ -1,0 +1,62 @@
+=== 1. CONNEXION ===
+Admin      : admin@reducte.ma / admin123
+Technicien : tech1@reducte.ma / tech123
+Client     : contact@alphatech.ma / client123
+
+=== 2. INSCRIPTION COMPTE CLIENT ===
+Prénom              : Amine
+Nom                 : Tazi
+Société             : Finatech Consulting
+Adresse             : 12 Rue des Hôpitaux, Casablanca
+Téléphone           : +212 5 22 40 50 60
+Email               : amine.tazi@finatech.ma
+Mot de passe        : Client@2026
+Confirmer mot passe : Client@2026
+
+=== 3. AJOUT / MODIF CLIENT ===
+Prénom    : Karim
+Nom       : Benali
+Société   : Atlas Digital SARL
+Adresse   : 45 Boulevard d'Anfa, Casablanca
+Téléphone : +212 6 61 22 33 44
+Email     : karim.benali@atlasdigital.ma
+
+=== 4. AJOUT / MODIF ÉQUIPEMENT ===
+Client            : Alpha Tech SARL (ou Atlas Digital)
+Nom équipement    : PC Portable Direction
+Catégorie         : PC Portable
+Marque            : Dell
+Modèle            : XPS 15 9530
+Numéro de série   : SN-DELL-88421-MA
+Date installation : 2026-09-01
+
+=== 5. DEMANDE D'ASSISTANCE ===
+Client      : Alpha Tech SARL
+Équipement  : Serveur Principal Dell PowerEdge
+Objet       : Écran noir et ventilateurs au maximum
+Description : L'ordinateur démarre avec ventilation à 100% mais aucun signal vidéo ni accès réseau.
+Priorité    : Élevée
+
+=== 6. SERVICE : AFFECTATION TECHNICIEN ===
+Technicien : Mehdi Alaoui
+Notes      : Intervention prioritaire sur site prévue à 14h00.
+
+=== 7. SERVICE / DEMANDE : MISE À JOUR STATUT ===
+Nouveau statut : En cours  (ou Terminée)
+Notes          : Diagnostic effectué, composant d'alimentation remplacé avec succès.
+
+=== 8. CRÉATION UTILISATEUR ===
+Nom complet          : Sara Idrissi
+Email                : sara.idrissi@reducte.ma
+Mot de passe provis. : Password@2026
+Rôle                 : technicien  (ou admin)
+
+=== 9. CHANGEMENT DE MOT DE PASSE ===
+Ancien mot de passe   : admin123  (ou tech123 ou client123)
+Nouveau mot de passe  : Reducte@2026!
+Confirmer mot de passe: Reducte@2026!
+
+=== 10. RECHERCHE RAPIDE / FILTRE ===
+Recherche : Dell
+Recherche : Alpha
+Recherche : SN-

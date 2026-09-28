@@ -1,0 +1,88 @@
+[
+  {
+    "id": "srv-01",
+    "demandeId": "dem-01",
+    "technicienId": "usr-tech-01",
+    "statut": "En cours",
+    "dateAffectation": "2026-08-01T10:15:00.000Z",
+    "dateMiseAJour": "2026-08-01T10:30:00.000Z",
+    "notes": "Diagnostic en cours sur les disques RAID du serveur de Casablanca."
+  },
+  {
+    "id": "srv-02",
+    "demandeId": "dem-02",
+    "technicienId": "usr-tech-01",
+    "statut": "Affectée",
+    "dateAffectation": "2026-08-01T10:20:00.000Z",
+    "dateMiseAJour": "2026-08-01T10:20:00.000Z",
+    "notes": "Intervention planifiée sur site à Agdal Rabat pour tester le switch Cisco."
+  },
+  {
+    "id": "srv-03",
+    "demandeId": "dem-03",
+    "technicienId": "usr-tech-01",
+    "statut": "Terminée",
+    "dateAffectation": "2026-07-28T15:00:00.000Z",
+    "dateMiseAJour": "2026-07-29T11:45:00.000Z",
+    "notes": "Barrettes RAM 2x16Go installées et validées sous stress test à Tanger."
+  },
+  {
+    "id": "srv-04",
+    "demandeId": "dem-04",
+    "statut": "Nouvelle",
+    "dateMiseAJour": "2026-08-01T11:05:00.000Z",
+    "notes": "Attente d attribution urgente d un technicien spécialiste Fortinet."
+  },
+  {
+    "id": "srv-05",
+    "demandeId": "dem-05",
+    "technicienId": "usr-tech-01",
+    "statut": "En cours",
+    "dateAffectation": "2026-08-01T09:30:00.000Z",
+    "dateMiseAJour": "2026-08-01T10:00:00.000Z",
+    "notes": "Remplacement de la cartouche de toner jaune et nettoyage du four Kyocera."
+  },
+  {
+    "id": "srv-06",
+    "demandeId": "dem-06",
+    "statut": "Nouvelle",
+    "dateMiseAJour": "2026-08-01T08:20:00.000Z",
+    "notes": "Analyse distante des journaux d erreurs Synology DSM à effectuer."
+  },
+  {
+    "id": "srv-07",
+    "demandeId": "dem-07",
+    "technicienId": "usr-tech-01",
+    "statut": "Affectée",
+    "dateAffectation": "2026-07-31T09:00:00.000Z",
+    "dateMiseAJour": "2026-07-31T09:00:00.000Z",
+    "notes": "Mise à jour du firmware des bornes Aruba AP-515 et rééquilibrage des canaux."
+  },
+  {
+    "id": "srv-08",
+    "demandeId": "dem-08",
+    "technicienId": "usr-tech-01",
+    "statut": "Terminée",
+    "dateAffectation": "2026-07-29T11:30:00.000Z",
+    "dateMiseAJour": "2026-07-29T16:20:00.000Z",
+    "notes": "Réparation des fichiers système Windows et remplacement du disque SSD NVMe."
+  },
+  {
+    "id": "srv-09",
+    "demandeId": "dem-09",
+    "technicienId": "usr-tech-01",
+    "statut": "En cours",
+    "dateAffectation": "2026-08-01T08:00:00.000Z",
+    "dateMiseAJour": "2026-08-01T09:15:00.000Z",
+    "notes": "Commande des batteries APC RBC140 auprès du fournisseur et livraison prévue."
+  },
+  {
+    "id": "srv-10",
+    "demandeId": "dem-10",
+    "technicienId": "usr-tech-01",
+    "statut": "Terminée",
+    "dateAffectation": "2026-07-27T10:30:00.000Z",
+    "dateMiseAJour": "2026-07-27T14:00:00.000Z",
+    "notes": "Ventilateur hot-swap HPE remplacé avec succès. Température normale."
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "dem-01",
+    "objet": "Lenteur d accès au serveur de fichiers",
+    "description": "Le serveur de fichiers principal répond très lentement lors de l ouverture de gros dossiers.",
+    "priorite": "Élevée",
+    "dateCreation": "2026-08-01T10:10:00.000Z",
+    "clientId": "cli-01",
+    "equipementId": "eq-01",
+    "statut": "En cours"
+  },
+  {
+    "id": "dem-02",
+    "objet": "Coupure intermittente du réseau local",
+    "description": "Le switch principal perd des paquets aux heures de pointe, impactant l agence de Rabat.",
+    "priorite": "Élevée",
+    "dateCreation": "2026-08-01T10:15:00.000Z",
+    "clientId": "cli-02",
+    "equipementId": "eq-02",
+    "statut": "Affectée"
+  },
+  {
+    "id": "dem-03",
+    "objet": "Mise à niveau RAM et nettoyage système",
+    "description": "Demande d augmentation de la mémoire vive à 64Go pour la station de rendu graphique.",
+    "priorite": "Moyenne",
+    "dateCreation": "2026-07-28T14:30:00.000Z",
+    "clientId": "cli-03",
+    "equipementId": "eq-03",
+    "statut": "Terminée"
+  },
+  {
+    "id": "dem-04",
+    "objet": "Panne de pare-feu et blocage des connexions VPN",
+    "description": "Impossible pour les collaborateurs distants de se connecter au VPN de Marrakech.",
+    "priorite": "Urgente",
+    "dateCreation": "2026-08-01T11:00:00.000Z",
+    "clientId": "cli-04",
+    "equipementId": "eq-04",
+    "statut": "Nouvelle"
+  },
+  {
+    "id": "dem-05",
+    "objet": "Bourrage papier récurrent et alerte toner",
+    "description": "L imprimante multifonction affiche une alerte toner jaune et bloque le bac 2.",
+    "priorite": "Faible",
+    "dateCreation": "2026-08-01T09:20:00.000Z",
+    "clientId": "cli-05",
+    "equipementId": "eq-05",
+    "statut": "En cours"
+  },
+  {
+    "id": "dem-06",
+    "objet": "Erreur de synchronisation du NAS de sauvegarde",
+    "description": "La sauvegarde nocturne automatique des données agricoles d Agadir a échoué.",
+    "priorite": "Élevée",
+    "dateCreation": "2026-08-01T08:15:00.000Z",
+    "clientId": "cli-06",
+    "equipementId": "eq-06",
+    "statut": "Nouvelle"
+  },
+  {
+    "id": "dem-07",
+    "objet": "Déconnexions Wi-Fi dans la salle de réunion",
+    "description": "Signal Wi-Fi très faible lors des vidéoconférences dans les locaux d Oujda.",
+    "priorite": "Moyenne",
+    "dateCreation": "2026-07-30T16:45:00.000Z",
+    "clientId": "cli-07",
+    "equipementId": "eq-07",
+    "statut": "Affectée"
+  },
+  {
+    "id": "dem-08",
+    "objet": "Écran bleu au démarrage du poste direction",
+    "description": "L ordinateur affiche un BSOD Kernel Data Inpage Error au boot.",
+    "priorite": "Élevée",
+    "dateCreation": "2026-07-29T11:10:00.000Z",
+    "clientId": "cli-08",
+    "equipementId": "eq-08",
+    "statut": "Terminée"
+  },
+  {
+    "id": "dem-09",
+    "objet": "Bip alerte batterie sur l onduleur réseau",
+    "description": "L onduleur émet un signal sonore continu indiquant l usure des batteries à Meknès.",
+    "priorite": "Moyenne",
+    "dateCreation": "2026-07-31T15:00:00.000Z",
+    "clientId": "cli-09",
+    "equipementId": "eq-09",
+    "statut": "En cours"
+  },
+  {
+    "id": "dem-10",
+    "objet": "Bruit anormal de ventilateur sur le serveur ERP",
+    "description": "Ventilateur d extraction n°3 fait un bruit de friction métallique.",
+    "priorite": "Faible",
+    "dateCreation": "2026-07-27T10:00:00.000Z",
+    "clientId": "cli-10",
+    "equipementId": "eq-10",
+    "statut": "Terminée"
+  }
+]
